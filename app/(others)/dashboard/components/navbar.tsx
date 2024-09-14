@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { CiUser } from "react-icons/ci";
 
 export default function Navbar() {
-    return <div className="navbar bg-base-100 shadow z-10">
+    return <div className="navbar bg-base-100 shadow z-30">
         <div className="flex-1">
             <Link href="/" className="btn btn-ghost text-xl">Signals</Link>
         </div>
@@ -17,13 +17,13 @@ export default function Navbar() {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li>
-                        <Link href="dashboard">Profile</Link>
+                        <Link href="/dashboard">Profile</Link>
                     </li>
                     <li>
-                        <Link href="dashboard/settings">Settings</Link>
+                        <Link href="/dashboard/settings">Settings</Link>
                     </li>
                     <li>
-                        <Link href="dashboard/logout">Log Out</Link>
+                        <Link href="/dashboard/logout">Log Out</Link>
                     </li>
                 </ul>
             </div>

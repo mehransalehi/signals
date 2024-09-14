@@ -6,7 +6,7 @@ import { FaPencil } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
 
 export default function Sidebar() {
-    return <aside className="flex-none w-1/4 min-h-full shadow-[2px_10px_5px_rgba(0,0,0,0.1)] bg-base-100">
+    return <aside className="flex-none w-1/4 min-h-full shadow-[2px_10px_5px_rgba(0,0,0,0.1)] bg-base-100 max-w-60">
         <ul className="menu pt-5 text-neutral [&_li:hover]:text-accent">
             <li>
                 <Link className="" href="dashboard/signals"><FaSignal/>Signals</Link>
