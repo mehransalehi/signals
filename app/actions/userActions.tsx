@@ -8,6 +8,8 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || '';
 
+
+
 const formSchema = z.object({
     email: z.coerce.string().email({ message: "Invalid Email Address." }),
     password: z.coerce.string().min(8, { message: "Min 5 Charachter" }),
