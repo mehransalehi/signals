@@ -1,12 +1,16 @@
 import Link from 'next/link'
 import { CiUser } from "react-icons/ci";
+import { checkUser } from '@/app/actions/userActions';
 
-export default function Navbar() {
+export default async function Navbar() {
+
+    const user = await checkUser();
     return <div className="navbar bg-base-100 shadow z-30">
         <div className="flex-1">
             <Link href="/" className="btn btn-ghost text-xl">Signals</Link>
         </div>
         <div className="flex-none">
+            <p className='text-sm me-2'>{user && user.email}</p>
             <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar hover:text-accent">
                     <div className="rounded-full">

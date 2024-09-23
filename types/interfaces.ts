@@ -3,3 +3,8 @@ export interface SignUpFormError {
     passError : string;
     mainError : string;
 }
+
+export interface SignInFormError {
+    res : boolean;
+    message : string;
+}

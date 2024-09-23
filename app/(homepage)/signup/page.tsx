@@ -15,12 +15,12 @@ const initState: SignUpFormError = {
 
 export default function Signin() {
     const [state, formAction] = useFormState(createUser, initState);
-    const { pending } = useFormStatus();
 
     return <main className="flex justify-center">
         <div className="card bg-base-100 w-full md:w-96 shadow-xl">
             <div className="card-body ">
                 <div className="card-title justify-center mb-6">Sign Up</div>
+                
                 {
                     state.mainError && (
                         <span className="text-error text-center">{state.mainError}</span>
