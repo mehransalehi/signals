@@ -19,7 +19,9 @@ export const createUser = async (prevState: any, formData: FormData) => {
     const confirm = formData.get('confirm');
     if (password != confirm) {
         return {
-            passError: "Password not matched"
+            passError: "Password not matched",
+            mainError: '',
+            emailError: '',
         }
     }
     const res = formSchema.safeParse({ email, password, confirm });
@@ -27,7 +29,8 @@ export const createUser = async (prevState: any, formData: FormData) => {
         const { errors: err } = res.error;
         const message = {
             emailError: '',
-            passError: ''
+            passError: '',
+            mainError: '',
         };
         err.forEach((er) => {
             if (er.path[0] == 'email') {
@@ -50,7 +53,9 @@ export const createUser = async (prevState: any, formData: FormData) => {
     } catch (error: any) {
         if (error.code == 'P2002') {
             return {
-                mainError: 'User already exists'
+                mainError: 'User already exists',
+                emailError: '',
+                passError: '',
             }
         }
         throw new Error(error.message);
@@ -123,7 +128,7 @@ export const checkUser = async () => {
     }
     try {
         const user = await prisma.user.findFirst({
-            where: { token : token.value }
+            where: { token: token.value }
         });
 
         if (!user) {
@@ -131,9 +136,9 @@ export const checkUser = async () => {
         }
 
         return user
-    } catch (error:any) {
+    } catch (error: any) {
         console.error(error);
         throw new Error(error.message);
-        
+
     }
 }
