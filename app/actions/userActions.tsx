@@ -67,6 +67,45 @@ export const createUser = async (prevState: any, formData: FormData) => {
 
 }
 
+export const logoutUser = async () =>{
+    const cookieStore = cookies();
+    const token = cookieStore.get('authToken');
+    if (!token) {
+        return false;
+    }
+    try {
+        const user = await prisma.user.findFirst({
+            where: { token: token.value }
+        });
+
+        if (!user) {
+            return false;
+        }
+
+        //save token with user id in database
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                token : ""
+            }
+        });
+
+        //set cookie
+        cookieStore.set('authToken', token.value, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            path: '/',
+            maxAge: 0
+        })
+
+        return true;
+
+    }  catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+}
+
 export const loginUser = async (prevState: any, formData: FormData) => {
     const email = formData.get('email');
     const password = formData.get('password');
@@ -74,7 +113,7 @@ export const loginUser = async (prevState: any, formData: FormData) => {
     if (typeof email !== 'string' || typeof password !== 'string') {
         return {
             res: false,
-            message: 'Email or Password not correct1'
+            message: 'Email or Password not correct'
         };
     }
     try {
@@ -84,7 +123,7 @@ export const loginUser = async (prevState: any, formData: FormData) => {
         if (!user || !await bcrypt.compare(password, user.password)) {
             return {
                 res: false,
-                message: 'Email Or Password Not Correct2'
+                message: 'Email Or Password Not Correct'
             }
         }
         //Generate token base secrect string

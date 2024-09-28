@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import BreadCrumbs from './components/breadcrumbs';
+import Loading from './loading';
+import { Suspense } from 'react';
+import { SplashScreenProvider } from './context/splashScreenContext';
+import SplashScreenComponent from './components/splashScreen';
 
 export const metadata: Metadata = {
   title: {
@@ -15,16 +19,20 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return <>
-    <main className="flex justify-stretch flex-col h-full min-h-full bg-base-200">
-      <Navbar />
-      <div className="flex flex-1 mt-[-5px] z-20">
-        <Sidebar />
-        <div className='p-4 grow'>
-          <BreadCrumbs />
-          {children}
+    <SplashScreenProvider>
+      <SplashScreenComponent />
+      <main className="flex justify-stretch flex-col h-full min-h-full bg-base-200">
+        <Navbar />
+        <div className="flex flex-1 mt-[-5px] z-20">
+          <Sidebar />
+          <div className='p-4 grow'>
+            <BreadCrumbs />
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </SplashScreenProvider>
   </>
 }

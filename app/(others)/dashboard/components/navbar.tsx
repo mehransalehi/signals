@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CiUser } from "react-icons/ci";
 import { checkUser } from '@/app/actions/userActions';
+import Logout from './logout';
 
 export default async function Navbar() {
 
@@ -27,7 +28,7 @@ export default async function Navbar() {
                         <Link href="/dashboard/settings">Settings</Link>
                     </li>
                     <li>
-                        <Link href="/dashboard/logout">Log Out</Link>
+                        <Logout />
                     </li>
                 </ul>
             </div>

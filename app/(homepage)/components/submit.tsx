@@ -2,10 +2,10 @@
  
 import { useFormStatus } from 'react-dom'
  
-export function SubmitButton({text} : {text: string}) {
+export function SubmitButton({text,isDisable} : {text: string,isDisable:boolean}) {
   const { pending } = useFormStatus()
  
   return (
-    <button className="btn btn-secondary" disabled={pending}> {pending ? 'Loading' : text} </button>
+    <button className="btn btn-secondary" disabled={pending || isDisable}> {pending ? 'Loading' : text} </button>
   )
 }

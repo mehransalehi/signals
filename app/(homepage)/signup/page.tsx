@@ -60,7 +60,7 @@ export default function Signin() {
                             <input name="confirm" type="password" className="grow" placeholder="Reenter Password" required />
                         </label>
                     </label>
-                    <SubmitButton text="Register" />
+                    <SubmitButton text="Register" isDisable={false}/>
                 </form>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { SignInFormError } from "@/types/interfaces";
 import { loginUser } from "@/app/actions/userActions";
 import { SubmitButton } from "../components/submit";
+import { useState } from "react";
 
 const initState: SignInFormError = {
     res: false,
@@ -16,6 +17,7 @@ export default function Signin() {
     if(state.res){
         router.push('/dashboard');
     }
+
     return <main className="flex justify-center">
         <div className="card bg-base-100 w-full md:w-96 shadow-xl">
             <div className="card-body ">
@@ -35,7 +37,7 @@ export default function Signin() {
                         <FaKey />
                         <input name="password" type="password" className="grow" defaultValue="password" />
                     </label>
-                    <SubmitButton text="login" />
+                    <SubmitButton text="login" isDisable={state.res}/>
                 </form>
             </div>
         </div>
