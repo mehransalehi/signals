@@ -28,6 +28,11 @@ export default function Signin() {
                         <span className="text-error text-center">{state.message}</span>
                     )
                 }
+                {
+                    state.res && (
+                        <span className="text-success text-center">{state.message}</span>
+                    )
+                }
                 <form action={formAction}>
                     <label className="input input-bordered flex items-center gap-2 mb-4">
                         <FaRegUser />
