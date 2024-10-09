@@ -36,3 +36,26 @@ body {}
   auto,   /* Size for blob-top-left.png */
                    auto;         /* Size for blob-center.png */
 }
+
+
+.primary-section-background {
+  background-image:url('/images/blob-bottom-left.png'),
+  url("/images/blob-bottom-right.png"),
+  url("/images/blob-top-right.png"),
+  url("/images/blob-top-left.png"),
+  url("/images/blob-center.png");
+  
+  background-repeat: no-repeat;
+  background-position: left 0% bottom 0%,right 0% bottom 0%,right 0% top 0%, left 0% top 0%,center center;
+  background-size: auto, /* Size for blob-bottom-left.png */
+  auto, /* Size for blob-bottom-right.png */
+  auto,   /* Size for blob-top-right.png */
+  auto,   /* Size for blob-top-left.png */
+                   auto;         /* Size for blob-center.png */
+}
+.footer-section{
+  background-image: url('/images/bg-top.png') , url('/images/map.png');
+  background-repeat:repeat-x, no-repeat;
+  background-position: top 0% left 0%, center center;
+  background-size: contain,cover;
+}
