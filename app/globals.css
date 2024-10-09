@@ -8,15 +8,31 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  
-}
+@media (prefers-color-scheme: dark) {}
 
-body {
-}
+body {}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+.hero-section-background {
+  background-image: url('/images/bg-bottom.png'), 
+  url('/images/blob-bottom-left.png'),
+  url("/images/blob-bottom-right.png"),
+  url("/images/blob-top-right.png"),
+  url("/images/blob-top-left.png"),
+  url("/images/blob-center.png");
+  
+  background-repeat: no-repeat;
+  background-position: center bottom, left 0% bottom 0%,right 0% bottom 0%,right 0% top 0%, left 0% top 0%,center center;
+  background-size: 100% 20%,    /* Size for bg-bottom.png */
+  auto, /* Size for blob-bottom-left.png */
+  auto, /* Size for blob-bottom-right.png */
+  auto,   /* Size for blob-top-right.png */
+  auto,   /* Size for blob-top-left.png */
+                   auto;         /* Size for blob-center.png */
 }

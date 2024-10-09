@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto, Alegreya } from "next/font/google";
 import Navbar from "./components/navbar";
 import "./../globals.css";
 import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
+const alegreya = Alegreya({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   title: "Signals",
@@ -18,11 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="cupcake">
-      <body className={inter.className}>
-        <Navbar />
-        <div className="p-14">
-          {children}
-        </div>
+      <body className={roboto.className}>
+        {children}
       </body>
     </html>
   );
