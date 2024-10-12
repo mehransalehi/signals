@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Roboto, Alegreya } from "next/font/google";
-import Navbar from "./components/navbar";
 import "./../globals.css";
-import { cookies } from "next/headers";
+import { UserProvider } from "../context/userContext";
+import { SplashScreenProvider } from "../context/splashScreenContext";
+import SplashScreenComponent from "../components/splashScreen";
+import { checkUser } from "../actions/userActions";
+
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
@@ -13,15 +16,24 @@ export const metadata: Metadata = {
   description: "Auto Ordring Bot For Cryptocurency",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let user = await checkUser();
+  if(user === true) {
+    user = false;
+  }
   return (
     <html lang="en" data-theme="cupcake">
       <body className={roboto.className}>
-        {children}
+        <SplashScreenProvider>
+          <UserProvider user={user}>
+            <SplashScreenComponent />
+            {children}
+          </UserProvider>
+        </SplashScreenProvider>
       </body>
     </html>
   );

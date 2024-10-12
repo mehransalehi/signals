@@ -4,8 +4,6 @@ import Sidebar from './components/sidebar';
 import BreadCrumbs from './components/breadcrumbs';
 import Loading from './loading';
 import { Suspense } from 'react';
-import { SplashScreenProvider } from './context/splashScreenContext';
-import SplashScreenComponent from './components/splashScreen';
 
 export const metadata: Metadata = {
   title: {
@@ -21,8 +19,6 @@ export default function DashboardLayout({
 }>) {
 
   return <>
-    <SplashScreenProvider>
-      <SplashScreenComponent />
       <main className="flex justify-stretch flex-col h-full min-h-full bg-base-200">
         <Navbar />
         <div className="flex flex-1 mt-[-5px] z-20">
@@ -33,6 +29,5 @@ export default function DashboardLayout({
           </div>
         </div>
       </main>
-    </SplashScreenProvider>
   </>
 }

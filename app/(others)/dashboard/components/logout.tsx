@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { logoutUser } from '@/app/actions/userActions';
 import { useRouter } from "next/navigation";
-import { useSplashScreen } from "../context/splashScreenContext";
+import { useSplashScreen } from "@/app/context/splashScreenContext";
 
 export default function Logout() {
     const router = useRouter();

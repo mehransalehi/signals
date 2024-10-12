@@ -1,11 +1,13 @@
+'use client'
 import Link from 'next/link'
 import { CiUser } from "react-icons/ci";
 import { checkUser } from '@/app/actions/userActions';
 import Logout from './logout';
+import { UseUser } from '@/app/context/userContext';
 
-export default async function Navbar() {
+export default function Navbar() {
 
-    const user = await checkUser();
+    const user = UseUser();
     return <div className="navbar bg-base-100 shadow z-30">
         <div className="flex-1">
             <Link href="/" className="btn btn-ghost text-xl">Signals</Link>

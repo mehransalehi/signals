@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from 'bcryptjs';
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
+import { User } from "@prisma/client";
 
 const JWT_SECRET = process.env.JWT_SECRET || '';
 
@@ -67,7 +68,7 @@ export const createUser = async (prevState: any, formData: FormData) => {
 
 }
 
-export const logoutUser = async () =>{
+export const logoutUser = async () => {
     const cookieStore = cookies();
     const token = cookieStore.get('authToken');
     if (!token) {
@@ -86,7 +87,7 @@ export const logoutUser = async () =>{
         await prisma.user.update({
             where: { id: user.id },
             data: {
-                token : ""
+                token: ""
             }
         });
 
@@ -100,7 +101,7 @@ export const logoutUser = async () =>{
 
         return true;
 
-    }  catch (error: any) {
+    } catch (error: any) {
         console.error(error);
         throw new Error(error.message);
     }
@@ -161,7 +162,7 @@ export const loginUser = async (prevState: any, formData: FormData) => {
     //redirect('/dashboard');
 }
 
-export const checkUser = async () => {
+export const checkUser = async (): Promise<User | boolean> => {
     const cookieStore = cookies();
     const token = cookieStore.get('authToken');
     if (!token) {

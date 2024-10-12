@@ -10,19 +10,155 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model User {
-  id            String    @default(cuid()) @id
-  name          String?
-  email         String?   @unique
-  password      String
-  token         String?
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+enum Role {
+  User
+  Admin
 }
 
+enum Side {
+  Long
+  Short
+}
 
-enum Role{
-  USER
-  ADMIN
+enum SignalStatus {
+  Enable
+  Disable
+}
+
+model User {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  name      String?  @map(name: "name") // Optional name
+  email     String   @unique @map(name: "email") // Unique email address
+  role      Role     @default(User) @map(name: "role") // Default role is 'User'
+  token     String?  @map(name: "token") // Optional token
+  password  String?  @map(name: "password") // Optional password
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  userSettings UserSettings[] // One-to-many relation
+  signals     Signal[] // One-to-many relation
+  posts       Post[] // One-to-many relation
+  newsletters Newsletter[] // One-to-many relation
+  siteSettings SiteSettings? // One-to-one relation
+  contacts     Contact[] // One-to-many relation
+  orders       Order[] // One-to-many relation
+  postComments  PostComment[] // One-to-many relation
+}
+
+model UserSettings {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  autotrade Boolean  @default(false) @map(name: "autotrade") // Boolean column with a default value
+  userId    String   @unique @map(name: "user_id") // Foreign key referencing User, must be unique
+
+  user      User     @relation(fields: [userId], references: [id]) // Foreign key relation
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+}
+
+model Signal {
+  id         String         @id @default(cuid()) @map(name: "id") // Primary key
+  symbol     String @map(name: "symbol") // Crypto symbol
+  side       Side? @map(name: "side") // Optional side (enum)
+  leverage   Int? @map(name: "leverage") // Optional leverage
+  entryMin   Float? @map(name: "entry_min") // Optional entry minimum
+  entryMax   Float? @map(name: "entry_max") // Optional entry maximum
+  profit     String? @map(name: "profit") // Optional profit
+  stopLoss   Float? @map(name: "stop_loss") // Optional stop loss
+  messageId  String? @map(name: "message_id") // Optional message ID
+  text       String? @map(name: "text") // Optional text
+  channel    String? @map(name: "channel") // Optional channel
+  status     SignalStatus @default(Disable) @map(name: "status") // Default status is 'Disable'
+  userId     String @map(name: "user_id") // Foreign key referencing User
+  createdAt  DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt  DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  user       User        @relation(fields: [userId], references: [id]) // Foreign key relation
+  orders     Order[] // One-to-many relation
+}
+
+model Order {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  details   String? @map(name: "details") // Optional details
+  signalId  String @map(name: "signal_id") // Foreign key referencing Signal
+  userId    String @map(name: "user_id") // Foreign key referencing User
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  signal    Signal @relation(fields: [signalId], references: [id]) // Foreign key relation
+  user      User @relation(fields: [userId], references: [id]) // Foreign key relation
+}
+
+model Post {
+  id          String   @id @default(cuid()) @map(name: "id") // Primary key
+  title       String? @map(name: "title") // Optional title
+  text        String? @map(name: "text") // Optional text
+  tags        String? @map(name: "tags") // Optional tags
+  img         String? @map(name: "img") // Optional image
+  postgroupId String? @map(name: "postgroup_id") // Optional post group ID
+  userId      String @map(name: "user_id") // Foreign key referencing User
+  createdAt   DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt   DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  user        User @relation(fields: [userId], references: [id]) // Foreign key relation
+  postGroup   PostGroup? @relation(fields: [postgroupId], references: [id]) // Foreign key relation
+  comments    PostComment[] // One-to-many relation
+}
+
+model PostComment {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  text      String? @map(name: "text") // Optional text
+  postId    String @map(name: "post_id") // Foreign key referencing Post
+  userId    String @map(name: "user_id") // Foreign key referencing User
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  post      Post @relation(fields: [postId], references: [id]) // Foreign key relation
+  user      User @relation(fields: [userId], references: [id]) // Foreign key relation
+}
+
+model PostGroup {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  order     Int? @map(name: "order") // Optional order
+  title     String? @map(name: "title") // Optional title
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  posts     Post[] // One-to-many relation
+}
+
+model Newsletter {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  email     String? @map(name: "email") // Optional email
+  userId    String @map(name: "user_id") // Foreign key referencing User
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  user      User @relation(fields: [userId], references: [id]) // Foreign key relation
+}
+
+model SiteSettings {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  address   String? @map(name: "address") // Optional address
+  phone     String? @map(name: "phone") // Optional phone number
+  email     String? @map(name: "email") // Optional email
+  instagram String? @map(name: "instagram") // Optional Instagram
+  twitter   String? @map(name: "twitter") // Optional Twitter
+  github    String? @map(name: "github") // Optional GitHub
+  userId    String @unique @map(name: "user_id") // Foreign key referencing User, must be unique
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  user      User @relation(fields: [userId], references: [id]) // Foreign key relation
+}
+
+model Contact {
+  id        String   @id @default(cuid()) @map(name: "id") // Primary key
+  name      String? @map(name: "name") // Optional name
+  email     String? @map(name: "email") // Optional email
+  message   String? @map(name: "message") // Optional message
+  userId    String @map(name: "user_id") // Foreign key referencing User
+  createdAt DateTime @default(now()) @map(name: "created_at") // Timestamp with default current time
+  updatedAt DateTime @updatedAt @map(name: "updated_at") // Automatically set to current time on update
+
+  user      User @relation(fields: [userId], references: [id]) // Foreign key relation
 }

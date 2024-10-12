@@ -6,7 +6,6 @@ import { SplashScreenContextProps } from '@/types/interfaces';
 const SplashScreenContext = createContext<SplashScreenContextProps | undefined>(undefined);
 
 export const useSplashScreen = () => {
-    console.log("useSplashScreen Called"); // Add this line to see if it's being called
   const context = useContext(SplashScreenContext);
   if (!context) {
     throw new Error('useSplashScreen must be used within a SplashScreenProvider');
