@@ -162,7 +162,7 @@ export const loginUser = async (prevState: any, formData: FormData) => {
     //redirect('/dashboard');
 }
 
-export const checkUser = async (): Promise<User | boolean> => {
+export const checkUser = async (): Promise<User | false> => {
     const cookieStore = cookies();
     const token = cookieStore.get('authToken');
     if (!token) {

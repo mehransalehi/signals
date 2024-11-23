@@ -2,8 +2,6 @@ import { Metadata } from 'next';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import BreadCrumbs from './components/breadcrumbs';
-import Loading from './loading';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +23,7 @@ export default function DashboardLayout({
           <Sidebar />
           <div className='p-4 grow'>
             <BreadCrumbs />
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            {children}
           </div>
         </div>
       </main>

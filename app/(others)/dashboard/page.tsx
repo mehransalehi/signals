@@ -1,8 +1,43 @@
+import { io } from "socket.io-client";
+
 export default function Dashboard() {
+    //websocket to get live prices
+    /* const arbit = {};
+    const socket = io('65.108.245.153:9000',{
+        auth : {
+            token : 'signal-app',
+            id : 'signal-app'
+        }
+    });
+
+    socket.on("disconnect", (reason) => {
+        console.log("DISCONNECTED");
+        if (reason === "io server disconnect") {
+            // the disconnection was initiated by the server, you need to reconnect manually
+            console.log("RECONNECTING");
+        }
+        // else the socket will automatically try to reconnect
+    });
+    socket.on("connect", () => {
+        socket.emit("join","dashboard");
+    });
+    socket.on("prices.coinex", (data) => {
+        console.log(data);
+        if(!arbit.hasOwnProperty(data[1])){
+            arbit[data[1]] = {
+                coinex : {bids : [] , asks :[]},
+                binance :  {bids : [] , asks :[]}
+            };
+        }
+        arbit[data[1]].coinex.bids = data[0].bids
+        arbit[data[1]].coinex.asks = data[0].asks
+    }); */
+
+
     return <>
         <div className="flex flex-wrap">
             <div className="w-1/4 px-2">
-                <a href="#">
+                <a href="https://coinmarketcap.com/">
                     <div className="card card-side bg-white shadow-sm hover:translate-y-[-5px] transition-all">
                         <figure className="w-[100px] h-[100px] p-4">
                             <img src="/images/coinmarketcap.svg" alt="coinmarketcap" />
@@ -14,7 +49,7 @@ export default function Dashboard() {
                 </a>
             </div>
             <div className="w-1/4 px-2">
-                <a href="#">
+                <a href="https://www.binance.com/">
                     <div className="card card-side bg-white shadow-sm hover:translate-y-[-5px] transition-all">
                         <figure className="w-[100px] h-[100px] p-4">
                             <img src="/images/binance.svg" alt="coinmarketcap" />
@@ -26,7 +61,7 @@ export default function Dashboard() {
                 </a>
             </div>
             <div className="w-1/4 px-2">
-                <a href="#">
+                <a href="coinex.com">
                     <div className="card card-side bg-white shadow-sm hover:translate-y-[-5px] transition-all">
                         <figure className="w-[100px] h-[100px] p-4">
                             <img src="/images/coinex.svg" alt="coinmarketcap" />
@@ -38,7 +73,7 @@ export default function Dashboard() {
                 </a>
             </div>
             <div className="w-1/4 px-2">
-                <a href="#">
+                <a href="https://nobitex.ir/">
                     <div className="card card-side bg-white shadow-sm hover:translate-y-[-5px] transition-all">
                         <figure className="w-[100px] h-[100px] p-4">
                             <img src="/images/nobitex.png" alt="coinmarketcap" />
